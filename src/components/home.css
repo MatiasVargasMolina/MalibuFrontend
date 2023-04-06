@@ -1,0 +1,8 @@
+.contenedor-home{
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+.contenedor-producto{
+    padding:1rem;
+}
