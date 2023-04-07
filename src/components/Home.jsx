@@ -7,9 +7,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "./home.css"
-
+import Zoom from '@mui/material/Zoom';
 function Home() {
     const [data,setData]=useState([]);
+    const [click,setClick]=useState(true);
+    const [productoSeleccionado,setProductoSeleccionado]=useState({nombre:""})
     useEffect(() => {
         const obtenerUsuarios = async () => {
           const resultado = await axios.get('http://localhost:8080/productos');
@@ -17,12 +19,21 @@ function Home() {
         }
         obtenerUsuarios();
       }, []);
-    
+    function handlePopoverOpen(producto){
+      setProductoSeleccionado(producto);
+      setClick(true)
+      console.log(productoSeleccionado)
+    }
+    function handlePopoverClose(){
+      setClick(false);
+      setProductoSeleccionado({});
+    }
     return (
         <div className='contenedor-home'>
             {data.map((product) => (
-                <div className='contenedor-producto'>
-                        <Card sx={{ maxWidth: 345 }}>
+                <div onMouseEnter={()=>{handlePopoverOpen(product)}}
+               onMouseLeave={()=>{handlePopoverClose()}}  key={product.id}  className='contenedor-producto'>
+                        <Card sx={{ maxWidth: 345, cursor:"pointer"}} >
                         <CardMedia
                           sx={{ height: 140 }}
                           component="img"
@@ -30,18 +41,24 @@ function Home() {
                           title={product.nombre}
                         />
                         <CardContent>
-                          <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h5" component="div">
+                            ${" "+product.precio.toLocaleString("en")}
+                          </Typography>
+                          <Typography gutterBottom variant="h8" component="div" sx={{color:"#04FF00"}}>
+                            6x ${" "+(product.precio/6).toLocaleString("en")+" sin interés"}
+                          </Typography>
+                          {(product.precioDeEnvio==0)?<><Typography gutterBottom variant="h8" component="div" sx={{color:"#04FF00"}}>
+                            Envio gratis
+                          </Typography></>:<></>
+
+                          }
+                          {
+                            (click&&product._id==productoSeleccionado._id)?<>                   <Typography variant="body2" color="text.secondary">
                             {product.nombre}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {product.descripcion}
-                          </Typography>
+                          </Typography></>:<></>
+                          }
                         </CardContent>
                         <CardActions>
-                        <Typography variant="body2" color="text.secondary">
-                            {product.precio}
-                          </Typography>
-                          <Button size="small">Comprar</Button>
                         </CardActions>
                       </Card>
                     </div>
