@@ -44,10 +44,10 @@ function Home() {
                         <Typography gutterBottom variant="h5" component="div">
                             ${" "+product.precio.toLocaleString("en")}
                           </Typography>
-                          <Typography gutterBottom variant="h8" component="div" sx={{color:"#04FF00"}}>
+                          <Typography gutterBottom variant="h8" component="div" sx={{color:"#0BC811"}}>
                             6x ${" "+(product.precio/6).toLocaleString("en")+" sin interés"}
                           </Typography>
-                          {(product.precioDeEnvio==0)?<><Typography gutterBottom variant="h8" component="div" sx={{color:"#04FF00"}}>
+                          {(product.precioDeEnvio==0)?<><Typography gutterBottom variant="h8" component="div" sx={{color:"#0BC811"}}>
                             Envio gratis
                           </Typography></>:<></>
 
