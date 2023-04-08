@@ -8,7 +8,9 @@ import InputLabel from '@mui/material/InputLabel';
 import FilledInput from '@mui/material/FilledInput';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
+import {useSelector} from "react-redux"
 import "./crearProducto.css"
+
 function CrearProducto() {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -22,7 +24,7 @@ function CrearProducto() {
     axios.post("http://localhost:8080/productos",{"nombre":data.get('nombre'),"descripcion":data.get("Descripcion"),"precio":data.get("precio"),"precioDeEnvio":data.get("precioDeEnvio"),"imagen":data.get("imagen")},{withCredentials:true});
     // Aquí podrías hacer una llamada a una API para crear el producto en tu base de datos
   };
-
+  const user= useSelector((state)=>state.login);
   return (
     <div className='contenedor-final-crear'>
       <form onSubmit={handleSubmit}>
