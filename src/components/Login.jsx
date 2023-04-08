@@ -13,9 +13,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useCreateTaskMutation} from "../redux/slices/api/apiSlice"
+import { useDispatch } from 'react-redux';
 import axios from "axios"
 import Alert from '@mui/lab/Alert';
 import {useState} from "react"
+import { login } from '../redux/thunk';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,31 +35,15 @@ const theme = createTheme();
 
 export default function SignIn() {
   //const [createTask]=useCreateTaskMutation()
+  const dispatch = useDispatch();
 
+  const handleSubmit = (event) => {
+    const data = new FormData(event.currentTarget);
+    event.preventDefault();
+    dispatch(login({ username:data.get('email'), password:data.get('password') }));
+  };
   const [data,setData]=useState({})
   const [errores,setErrores]=useState("")
-  const handleSubmit = async(event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const elements={username: data.get('email'),password: data.get('password'),}
-    try{
-      const datos=await axios.post("http://localhost:8080/api/auth/signin",elements,{withCredentials:true});
-      setData(datos.data);
-      console.log(datos)
-      if(datos.status==200){
-        window.location.href = "http://localhost:5173";
-      }
-    }
-    catch(error){
-      console.log(error.response.status);
-      if(error.response.status==401){
-        setErrores("Contraseña incorrecta");
-      }
-      else if(error.response.status==404){
-        setErrores("Usuario inexistente")
-      }
-    }
-  };
 
   return (
     <ThemeProvider theme={theme}>

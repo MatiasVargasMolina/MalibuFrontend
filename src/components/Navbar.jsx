@@ -8,8 +8,10 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import BotonCategory from "./BotonCategory"
 import {Link} from "react-router-dom"
+import {useSelector} from "react-redux"
 export default function ButtonAppBar() {
-
+  const user= useSelector((state)=>state.login);
+  console.log(user)
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -28,8 +30,8 @@ export default function ButtonAppBar() {
           </Typography>
           <BotonCategory>Categoría</BotonCategory>
           <Button color="inherit" href='/crearProducto'>Vender</Button>
-          <Button color="inherit" href='/login'>Login</Button>
-          <Button color="inherit" href='/register'>Register</Button>
+          {(user.isLoggedIn)?<></>:<><Button color="inherit" href='/login'>Login</Button>
+          <Button color="inherit" href='/register'>Register</Button></>}
         </Toolbar>
       </AppBar>
     </Box>

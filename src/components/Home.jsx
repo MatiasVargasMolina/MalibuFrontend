@@ -22,7 +22,6 @@ function Home() {
     function handlePopoverOpen(producto){
       setProductoSeleccionado(producto);
       setClick(true)
-      console.log(productoSeleccionado)
     }
     function handlePopoverClose(){
       setClick(false);
