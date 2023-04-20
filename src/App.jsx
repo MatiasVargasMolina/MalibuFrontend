@@ -10,24 +10,31 @@ import CrearProducto from './components/crearProducto';
 import { Provider,useSelector } from 'react-redux';
 import {store} from './redux/store';
 import { useState,useEffect } from 'react';
+import axios from "axios"
 function App() {
-  const [user,setUser]=useState({})
-  useEffect(() => {
-  }, []);
-  store.subscribe(() => {
-    setUser(store.getState().login)
-    console.log(user)
-  });
+  const [username,setUsername] = useState("")
+  const obtenerData=async()=>{
+    try{
+      const {data} = await axios.get("api/test/user",{ withCredentials:true });
+      setUsername(data)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+  useEffect(()=>{
+    obtenerData()
+  },[])
+
   return (
     <Provider store={store}>
     <Router>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/register" element={<Register />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/crearProducto" element={<CrearProducto />} />
-        <Route path="/Login" element={(user.isLoggedIn)?<Navigate to="/"/>:<Login/> } />
+        <Route path="/" element={<><Navbar /><Home /></>}/>
+        <Route path="/register" element={<><Navbar /><Register /></>} />
+        <Route path="/pricing" element={<><Navbar /><Pricing /></>} />
+        <Route path="/crearProducto" element={<><Navbar /><CrearProducto /></>} />
+        <Route path="/Login" element={(username!="")?<><Navigate to="/"/></>:<><Login /></> } />
       </Routes>
     </Router>
     </Provider>

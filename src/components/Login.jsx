@@ -18,6 +18,10 @@ import axios from "axios"
 import Alert from '@mui/lab/Alert';
 import {useState} from "react"
 import { login } from '../redux/thunk';
+import {Navigate} from "react-router-dom"
+import { useEffect } from 'react';
+import Navbar from "./Navbar"
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,19 +38,42 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  //const [createTask]=useCreateTaskMutation()
+
+  const [username,setUsername] = useState("")
+  const [click,setClick]=useState(false);
+  const obtenerData=async()=>{
+    try{
+      const {datas} = await axios.get("http://localhost:8080/api/test/user",{ withCredentials:true });
+      setUsername(datas)
+      console.log(username)
+    }
+    catch(err){
+      setUsername("")
+    }
+  }
+  useEffect(()=>{
+    obtenerData()
+  },[click])
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
-    const data = new FormData(event.currentTarget);
+    const data2 = new FormData(event.currentTarget);
     event.preventDefault();
-    dispatch(login({ username:data.get('email'), password:data.get('password') }));
+    try{
+      dispatch(login({ username:data2.get('email'), password:data2.get('password') }));
+      setClick(true)
+    }
+    catch(error){
+      console.log(error)
+    }
   };
   const [data,setData]=useState({})
   const [errores,setErrores]=useState("")
 
-  return (
+  return ((username!=""||click)?
+    <><Navbar />    <Navigate to="/"/></>:
     <ThemeProvider theme={theme}>
+      <Navbar />
       <h1>{data.email}</h1>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

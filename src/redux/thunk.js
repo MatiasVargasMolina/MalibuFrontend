@@ -6,10 +6,25 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { dispatch }) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/signin', credentials);
+      const response = await axios.post('http://localhost:8080/api/auth/signin', credentials,{withCredentials:true});
+      console.log(response.data)
+      dispatch(loginSuccess(response.data));
+    } catch (error) {
+      console.log(error)
+      dispatch(loginFailure(error.message));
+    }
+  }
+);
+
+export const auth = createAsyncThunk(
+  'auth',
+  async ({ dispatch }) => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/auth/', credentials,{withCredentials:true});
       dispatch(loginSuccess(response.data));
     } catch (error) {
       dispatch(loginFailure(error.message));
     }
   }
 );
+

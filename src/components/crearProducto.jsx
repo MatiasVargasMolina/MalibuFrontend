@@ -19,7 +19,7 @@ function CrearProducto() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post("http://localhost:8080/productos",{"nombre":data.get('nombre'),"descripcion":data.get("Descripcion"),"precio":data.get("precio"),"precioDeEnvio":data.get("precioDeEnvio"),"imagen":data.get("imagen")},{withCredentials:true});
+    axios.post("http://localhost:8080/productos",{"nombre":data.get('nombre'),"descripcion":data.get("Descripcion"),"precio":data.get("precio"),"precioDeEnvio":data.get("precioDeEnvio"),"imagen":data.get("imagen"),"cantidad":data.get("cantidad")},{withCredentials:true});
     // Aquí podrías hacer una llamada a una API para crear el producto en tu base de datos
   };
 
@@ -64,13 +64,6 @@ function CrearProducto() {
             }}
           
           />
-                    <TextField name="cantidad" label="Cantidad" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} sx={{
-                  width: 500,
-                  boxShadow: 0,
-                  borderRadius: 2,
-                  p: 2,
-                  minWidth: 300,
-                }} >Cantidad</TextField>
 
           <TextField name="precio" label="Precio" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} sx={{
                   width: 500,
@@ -104,6 +97,13 @@ function CrearProducto() {
                   minWidth: 300,
                 }}
               />
+              <TextField name="cantidad" label="cantidad" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} sx={{
+                  width: 500,
+                  boxShadow: 0,
+                  borderRadius: 2,
+                  p: 2,
+                  minWidth: 300,
+                }} >cantidad</TextField>
                       <Button type="submit" variant="contained" color="success">
         Crear
       </Button>
