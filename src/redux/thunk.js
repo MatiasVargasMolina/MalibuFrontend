@@ -20,11 +20,12 @@ export const auth = createAsyncThunk(
   'auth',
   async ({ dispatch }) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/auth/', credentials,{withCredentials:true});
+      const response = await axios.get('http://localhost:8080/api/test/user', credentials,{withCredentials:true});
       dispatch(loginSuccess(response.data));
     } catch (error) {
       dispatch(loginFailure(error.message));
     }
   }
 );
+
 
